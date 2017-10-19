@@ -7,10 +7,19 @@
 
     <LinearLayout
         android:id="@+id/container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:layoutAnimation="@anim/layout_anim_container"
         android:orientation="horizontal">
+
+        <include layout="@layout/item_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <include layout="@layout/item_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <include layout="@layout/item_sun"
             android:layout_width="wrap_content"
@@ -26,6 +35,14 @@
         android:layout_marginTop="16dp"
         android:animateLayoutChanges="true"
         android:orientation="horizontal">
+
+        <include layout="@layout/item_moon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <include layout="@layout/item_moon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <include layout="@layout/item_moon"
             android:layout_width="wrap_content"

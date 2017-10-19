@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mRemove;
     private Button mAdd2;
     private Button mRemove2;
-
-    private LayoutTransition mLayoutTransition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdd2.setOnClickListener(this);
         mRemove2.setOnClickListener(this);
 
-        mLayoutTransition = new LayoutTransition();
+        // Use codes to set layout animation
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_rotation);
+        LayoutAnimationController animationController = new LayoutAnimationController(animation);
+        animationController.setDelay(1);
+        animationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
+        mContainer2.setLayoutAnimation(animationController);
+        animationController.start();
+
+        // Custom layout transitions
+        LayoutTransition layoutTransition = new LayoutTransition();
         ObjectAnimator animator = ObjectAnimator.ofFloat(null, "translationX", 0, 30, 0);
-        mLayoutTransition.setDuration(LayoutTransition.APPEARING, 800);
-        mLayoutTransition.setAnimator(LayoutTransition.APPEARING, animator);
+        layoutTransition.setDuration(LayoutTransition.APPEARING, 800);
+        layoutTransition.setAnimator(LayoutTransition.APPEARING, animator);
 
         AnimatorSet animator1 = new AnimatorSet();
         animator1.playTogether(ObjectAnimator.ofFloat(null, "scaleX", 1, 0),
                 ObjectAnimator.ofFloat(null, "scaleY", 1, 0));
-        mLayoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animator1);
+        layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animator1);
 
         // This doesn't work!
 //        ObjectAnimator animator2 = ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0);
@@ -56,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AnimatorSet animator2 = new AnimatorSet();
         animator2.playTogether(ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0));
-        mLayoutTransition.setDuration(LayoutTransition.CHANGE_APPEARING, 800);
-        mLayoutTransition.setAnimator(LayoutTransition.CHANGE_APPEARING, animator2);
+        layoutTransition.setDuration(LayoutTransition.CHANGE_APPEARING, 800);
+        layoutTransition.setAnimator(LayoutTransition.CHANGE_APPEARING, animator2);
 
         // This doesn't work!
 //        ObjectAnimator animator3 = ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0);
@@ -66,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AnimatorSet animator3 = new AnimatorSet();
         animator3.playTogether(ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0));
-        mLayoutTransition.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 800);
-        mLayoutTransition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, animator3);
+        layoutTransition.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 800);
+        layoutTransition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, animator3);
 
-        mContainer2.setLayoutTransition(mLayoutTransition);
+        mContainer2.setLayoutTransition(layoutTransition);
     }
 
 
