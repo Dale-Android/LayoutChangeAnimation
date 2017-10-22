@@ -50,6 +50,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/container3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container2"
+        android:layout_marginTop="16dp"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"/>
+
+        <include layout="@layout/item_heart"
+            android:id="@+id/heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,6 +113,30 @@
             android:layout_below="@id/line"
             android:layout_toRightOf="@id/add2"
             android:text="remove2"/>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_below="@id/add2"
+            android:background="#aaa" />
+
+        <Button
+            android:id="@+id/add3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line2"
+            android:text="add3"/>
+
+        <Button
+            android:id="@+id/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line2"
+            android:layout_toRightOf="@id/add3"
+            android:text="change"/>
 
     </RelativeLayout>
 

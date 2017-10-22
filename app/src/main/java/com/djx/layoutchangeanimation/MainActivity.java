@@ -13,33 +13,58 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout mContainer;
     private LinearLayout mContainer2;
+    private LinearLayout mContainer3;
+    private TextView mNum;
+
+    private int mNumValue = 1;
+
     private Button mAdd;
     private Button mRemove;
     private Button mAdd2;
     private Button mRemove2;
+    private Button mAdd3;
+    private Button mChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initViews();
+        initLayoutAnimation();
+        initCustomTransition1();
+        initCustomTransition2();
+    }
+
+    private void initViews() {
         mContainer = findViewById(R.id.container);
         mContainer2 = findViewById(R.id.container2);
+        mContainer3 = findViewById(R.id.container3);
+
+        mNum = mContainer3.findViewById(R.id.num);
+        mNum.setText(String.valueOf(mNumValue));
 
         mAdd = findViewById(R.id.add);
         mRemove = findViewById(R.id.remove);
         mAdd2 = findViewById(R.id.add2);
         mRemove2 = findViewById(R.id.remove2);
+        mAdd3 = findViewById(R.id.add3);
+        mChange = findViewById(R.id.change);
         mAdd.setOnClickListener(this);
         mRemove.setOnClickListener(this);
         mAdd2.setOnClickListener(this);
         mRemove2.setOnClickListener(this);
+        mAdd3.setOnClickListener(this);
+        mChange.setOnClickListener(this);
+    }
 
+    private void initLayoutAnimation() {
         // Use codes to set layout animation
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_rotation);
         LayoutAnimationController animationController = new LayoutAnimationController(animation);
@@ -47,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
         mContainer2.setLayoutAnimation(animationController);
         animationController.start();
+    }
 
+    private void initCustomTransition1() {
         // Custom layout transitions
         LayoutTransition layoutTransition = new LayoutTransition();
         ObjectAnimator animator = ObjectAnimator.ofFloat(null, "translationX", 0, 30, 0);
@@ -61,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // This doesn't work!
 //        ObjectAnimator animator2 = ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0);
-//        mLayoutTransition.setDuration(LayoutTransition.CHANGE_APPEARING, 800);
-//        mLayoutTransition.setAnimator(LayoutTransition.CHANGE_APPEARING, animator2);
+//        layoutTransition.setDuration(LayoutTransition.CHANGE_APPEARING, 800);
+//        layoutTransition.setAnimator(LayoutTransition.CHANGE_APPEARING, animator2);
 
         AnimatorSet animator2 = new AnimatorSet();
         animator2.playTogether(ObjectAnimator.ofFloat(null, "rotation", 0, 360, 0));
@@ -82,6 +109,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContainer2.setLayoutTransition(layoutTransition);
     }
 
+    private void initCustomTransition2() {
+        LayoutTransition layoutTransition = new LayoutTransition();
+
+        AnimatorSet animator = new AnimatorSet();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(null, "alpha", 1, 0.5f, 1);
+        animator.play(anim);
+        layoutTransition.setDuration(LayoutTransition.CHANGING, 1000);
+        layoutTransition.setAnimator(LayoutTransition.CHANGING, animator);
+
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+        mContainer3.setLayoutTransition(layoutTransition);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -93,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mContainer2.addView(inflateItemMoon());
         } else if (view == mRemove2) {
             mContainer2.removeView(mContainer2.getChildAt(mContainer2.getChildCount() - 1));
+        } else if (view == mAdd3) {
+            mContainer3.addView(inflateItemHeart());
+        } else if (view == mChange) {
+            mNum.setText(String.valueOf(mNumValue *= 10));
         }
     }
 
@@ -102,5 +146,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView inflateItemMoon() {
         return (ImageView) LayoutInflater.from(this).inflate(R.layout.item_moon, null);
+    }
+
+    private ImageView inflateItemHeart() {
+        return (ImageView) LayoutInflater.from(this).inflate(R.layout.item_heart, null);
     }
 }
